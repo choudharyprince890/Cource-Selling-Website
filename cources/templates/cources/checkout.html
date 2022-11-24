@@ -1,0 +1,94 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+
+
+<div class="container">
+
+    <h2 class="text-center">Checkout Page</h2> 
+</div>
+<div class="row">
+    <div class="col mr-auto">
+
+        <div class="float-right">
+            <div class="card" style="width: 18rem;">
+
+                <img src="{{cources.thumbnail.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{cources.name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Rs. {{cources.prince}}</h6>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col p-3">
+        <h3>{{cources.name}}</h3>
+        <p>Total Payable Amount: Rs.{{cources.prince}}</p>
+        <a href="?action=create_payment" class="btn btn-primary">Continue To Payment</a>
+
+
+
+    </div>
+</div>
+<div>
+    <h4 class="ml-3 mt-3">Description</h4>
+    <p class="card-text ml-3 ">{{cources.desc}}</p>
+</div>
+
+
+{% if order is not None %}
+<!-- <h1>Order popup {{order}}</h1> -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "rzp_test_L0QhXaFIY9o25u", // Enter the Key ID generated from the Dashboard
+        // "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        // "currency": "INR",
+        "name": "Acme Corp",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{order.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 2
+        // "handler": function (response) {
+        //     alert(response.razorpay_payment_id);
+        //     alert(response.razorpay_order_id);
+        //     alert(response.razorpay_signature)
+        // },
+        "callback_url": "http://127.0.0.1:8000/verify_payment",
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    // rzp1.on('payment.failed', function (response) {
+    //     alert(response.error.code);
+    //     alert(response.error.description);
+    //     alert(response.error.source);
+    //     alert(response.error.step);
+    //     alert(response.error.reason);
+    //     alert(response.error.metadata.order_id);
+    //     alert(response.error.metadata.payment_id);
+    // });
+
+    // document.getElementById('rzp-button1').onclick = function (e) {
+    //     rzp1.open();
+    //     e.preventDefault();
+    // }
+    rzp1.open();
+</script>
+{% endif %}
+{% if error_msg is not None %}
+<script>
+    window.onload = ()=>{
+        alert("{{error_msg}}")
+    }
+</script>
+{% endif %}
+{% endblock %}

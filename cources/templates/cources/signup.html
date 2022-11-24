@@ -1,0 +1,13 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<h1>signup</h1>
+
+<form action="" method="POST" novalidate class="shadow p-5">
+    {% csrf_token %}
+    {{form}}
+    <br>
+    <input type="submit" value="Submit" class="btn btn-primary">
+</form>
+{% endblock %}

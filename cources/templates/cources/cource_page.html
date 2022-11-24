@@ -1,0 +1,99 @@
+{% extends './base.html' %}
+
+{% block content %}
+<style>
+    #outerrow{
+        overflow-y: scroll;
+        height: 485px !important;
+
+    }
+    .active-video{
+        background-color: rgb(0 0 0 / 23%);
+    }
+</style>
+{{video_id}}
+<div class="container-fluid">
+    <!-- <div hidden>
+        <h1>{{cources}}</h1>
+        <h1>{{cources.name}}</h1>
+        <p>{{cources.desc}}</p>
+
+        <p>{{cources.videos_set.all}}</p>
+        tags ...........
+        <p>{{cources.hashtag_set.all}}</p>
+        requisits ...........
+        <p>{{cources.prerequisite_set.all}}</p>
+        learning ..............
+        <p>{{cources.learning_set.all}}</p>
+    </div> -->
+    {{video.video_id}}
+    <div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <iframe id="player" height="315" width="100%" src="https://www.youtube.com/embed/{{video.video_id}}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-4" id="outerrow" >
+                <ul class="list-group">
+                    {% for v in cources.videos_set.all %}
+                    <li class="list-group-item {% if v == video %} active-video {% endif %}"><a href="?video={{v.id}}">{{v}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="mt-3">
+            <h3>{{cources.name}}</h3>
+            {{cources.desc}}
+        </div>
+        <div class="mt-3">
+            <a href="/checkout/{{cources.slug}}" class="btn btn-primary mr-2 justify-content-center d-flex align-items-center"><i class="fas fa-link"></i> Enrol l Now</a>
+            <h4>Things You'll Learn</h4>
+            {% for learn in cources.learning_set.all %}
+            <div class="d-inline p-2 bg-primary text-white mr-2">
+                {{learn.tech_learn}}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mt-3">
+            <h4>Tags</h4>
+            {% for tag in cources.hashtag_set.all %}
+            <div class="d-inline p-2 bg-primary text-white mr-2">
+                {{tag.tag}}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="mt-3">
+            <h4>Prerequisits</h4>
+            {% for pre in cources.prerequisite_set.all %}
+            <div class="d-inline p-2 bg-primary text-white mr-2">
+                {{pre.required}}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var player;
+    var video_list
+    window.onload = ()=>{
+        player = document.getElementById('player')
+        video_list = document.getElementById('video_list')
+        maintainratio()
+    }
+    function maintainratio(){
+        var w = player.clientWidth
+        var h = (w*9)/16
+        player.height = h
+    }
+    video_list.style.maxHeight = 4 + 'px'
+    window.onresize = maintainratio()
+</script>
+
+
+{% endblock %}

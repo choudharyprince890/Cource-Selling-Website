@@ -1,0 +1,64 @@
+{% extends './base.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --gradient: linear-gradient(to left top, #0e8ce4 10%, #5f91a9 90%) !important;
+    }
+
+    body {
+        background: rgb(215, 215, 215) !important;
+    }
+
+    .card {
+        background: #222;
+        border: 1px solid #dd2476;
+        color: rgba(250, 250, 250, 0.8);
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        border: 5px solid;
+        border-image-slice: 1;
+        background: var(--gradient) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        border-image-source: var(--gradient) !important;
+        text-decoration: none;
+        transition: all .4s ease;
+    }
+
+    .btn:hover,
+    .btn:focus {
+        background: var(--gradient) !important;
+        -webkit-background-clip: none !important;
+        -webkit-text-fill-color: #fff !important;
+        border: 5px solid #fff !important;
+        box-shadow: #222 1px 0 10px;
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container">
+    {{request.user}}
+    <div class="row ">
+        {%  for cource in cources %}
+            
+            <div class="col-sm-3">
+                <div class="card" style="width: 18rem;">
+                    
+                <img src="{{cource.thumbnail.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{cource.name}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Rs. {{cource.prince}}</h6>
+                    <!-- <p class="card-text">{{cource.desc}}</p> -->
+                    <a href="checkout/{{cource.slug}}" class="btn btn-primary mr-2"><i class="fas fa-link"></i> Enrool Now</a>
+                    <a href="/cource/{{cource.slug}}" class="btn btn-primary"><i class="fab fa-github"></i> Show More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
